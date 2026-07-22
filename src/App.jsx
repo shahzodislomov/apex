@@ -26,7 +26,8 @@ const staggeredNavItems = [
   { label: 'Manifesto', ariaLabel: 'Go to Manifesto', onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
   { label: 'Projects', ariaLabel: 'Go to Projects', onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
   { label: 'Team', ariaLabel: 'Go to Team', onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) },
-  { label: 'Contact', ariaLabel: 'Go to Contact', onClick: () => document.querySelectorAll('.section-wrapper')[4]?.scrollIntoView({ behavior: 'smooth' }) }
+  { label: 'Testimonials', ariaLabel: 'Go to Testimonials', onClick: () => document.querySelectorAll('.section-wrapper')[4]?.scrollIntoView({ behavior: 'smooth' }) },
+  { label: 'Contact', ariaLabel: 'Go to Contact', onClick: () => document.querySelectorAll('.section-wrapper')[5]?.scrollIntoView({ behavior: 'smooth' }) }
 ];
 
 const staggeredSocialItems = [

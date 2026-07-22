@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { useAudio } from './AudioController';
 import './StaggeredMenu.css';
 
 export const StaggeredMenu = ({
@@ -20,6 +21,12 @@ export const StaggeredMenu = ({
   onMenuOpen,
   onMenuClose
 }) => {
+  const audio = useAudio();
+  const isMuted = audio ? audio.isMuted : true;
+  const setIsMuted = audio ? audio.setIsMuted : () => {};
+  const playClick = audio ? audio.playClick : () => {};
+  const playHover = audio ? audio.playHover : () => {};
+
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
   const panelRef = useRef(null);
@@ -378,29 +385,63 @@ export const StaggeredMenu = ({
             </span>
           )}
         </div>
-        <button
-          ref={toggleBtnRef}
-          className="sm-toggle cursor-target"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="staggered-menu-panel"
-          onClick={toggleMenu}
-          type="button"
-        >
-          <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
-            <span ref={textInnerRef} className="sm-toggle-textInner">
-              {textLines.map((l, i) => (
-                <span className="sm-toggle-line" key={i}>
-                  {l}
-                </span>
-              ))}
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          {/* Sound Toggle Switch */}
+          <button
+            onClick={() => {
+              playClick();
+              setIsMuted(!isMuted);
+            }}
+            onMouseEnter={playHover}
+            className="cursor-target"
+            type="button"
+            style={{
+              background: isMuted ? 'rgba(15, 23, 42, 0.85)' : '#9bb8e1',
+              color: isMuted ? '#94a3b8' : '#000209',
+              border: isMuted ? '1px solid rgba(155, 184, 225, 0.25)' : '1px solid #9bb8e1',
+              borderRadius: '99px',
+              padding: '0.4rem 0.95rem',
+              fontSize: '0.75rem',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              transition: 'all 0.3s ease',
+              backdropFilter: 'blur(8px)',
+              boxShadow: isMuted ? 'none' : '0 0 15px rgba(155, 184, 225, 0.4)'
+            }}
+            aria-label={isMuted ? "Enable sound effects" : "Disable sound effects"}
+          >
+            <span>{isMuted ? 'SOUND OFF' : 'SOUND ON'}</span>
+          </button>
+
+          <button
+            ref={toggleBtnRef}
+            className="sm-toggle cursor-target"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="staggered-menu-panel"
+            onClick={toggleMenu}
+            type="button"
+          >
+            <span ref={textWrapRef} className="sm-toggle-textWrap" aria-hidden="true">
+              <span ref={textInnerRef} className="sm-toggle-textInner">
+                {textLines.map((l, i) => (
+                  <span className="sm-toggle-line" key={i}>
+                    {l}
+                  </span>
+                ))}
+              </span>
             </span>
-          </span>
-          <span ref={iconRef} className="sm-icon" aria-hidden="true">
-            <span ref={plusHRef} className="sm-icon-line" />
-            <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
-          </span>
-        </button>
+            <span ref={iconRef} className="sm-icon" aria-hidden="true">
+              <span ref={plusHRef} className="sm-icon-line" />
+              <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
+            </span>
+          </button>
+        </div>
       </header>
 
       <aside id="staggered-menu-panel" ref={panelRef} className="staggered-menu-panel" aria-hidden={!open}>
