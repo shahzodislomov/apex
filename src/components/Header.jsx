@@ -17,12 +17,11 @@ const Header = () => {
 
   return (
     <header className="header">
-      <a href="/" onClick={handleLogoClick} className="header-logo cursor-target" aria-label="HolyElite Homepage">
-        {/* Simple 'W' Logo */}
-        <span className="header-logo__mark" style={{ fontSize: '2.5rem', fontWeight: '800', lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>W</span>
-
-        {/* Text Logo: HolyElite */}
-        <span className="header-logo__type" style={{ fontSize: '1.25rem', fontWeight: '800', display: 'flex', alignItems: 'center', letterSpacing: '0.05em', textTransform: 'uppercase' }}>HolyElite</span>
+      <a href="/" onClick={handleLogoClick} className="header-logo cursor-target" aria-label="ApexDevs Homepage">
+        {/* Logo Mark */}
+        <span className="header-logo__mark" style={{ background: '#9bb8e1', color: '#000209', borderRadius: '4px', padding: '0.2rem 0.5rem', fontWeight: '900', fontSize: '1.2rem', marginRight: '0.6rem' }}>A</span>
+        {/* Text Logo: ApexDevs */}
+        <span className="header-logo__type" style={{ fontSize: '1.25rem', fontWeight: '800', display: 'flex', alignItems: 'center', letterSpacing: '0.05em', textTransform: 'uppercase' }}>ApexDevs</span>
       </a>
 
       {/* Sound toggle button */}

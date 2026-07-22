@@ -1,81 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAudio } from './AudioController';
-import Portrait3D from './Portrait3D';
+import { FaGithub, FaLinkedin, FaTelegram } from 'react-icons/fa6';
+import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 const teamMembers = [
   {
-    name: "Dara Campbell",
-    position: "Managing Partner",
-    portrait: "https://picsum.photos/400/400?random=1",
-    depthMap: "/images/sanity/9a10c8de53e038349a3b8d27f81d580590adcf28-1024x1024.webp",
-    normalMap: "/images/sanity/72d67cec28cba9214e0ca7978bf50bafd4e41966-1024x1024.webp"
+    name: "Abdulloh Qurbonov",
+    position: "Full-Stack & Mobile App Developer",
+    description: "Specializes in building high-performance full-stack web applications and cross-platform mobile apps (iOS & Android). Expert in modern frontend frameworks, scalable backends, database orchestration, and seamless user experiences.",
+    telegram: "https://t.me/cs_clay",
+    linkedin: "https://www.linkedin.com/in/abdulloh-qurbonov-030bb7357/",
+    github: "https://github.com/abdullohqurbon0v"
   },
   {
-    name: "Will Patterson",
-    position: "Head of Venture",
-    portrait: "https://picsum.photos/400/400?random=2",
-    depthMap: "/images/sanity/b67ab460249ef0f17a231d4c339fb1fd08bc9922-1024x1024.webp",
-    normalMap: "/images/sanity/d96533ae3f2e0ac61cd49878394d8246a1037494-1024x1024.webp"
+    name: "Shahzod Islomov",
+    position: "Full-Stack & Mobile App Developer",
+    description: "Expert in end-to-end full-stack web development, mobile applications, interactive 3D/WebGL user interfaces, and Web3 protocol integrations. Crafts production-ready digital products with clean, maintainable architecture.",
+    telegram: "https://t.me/shawn_isl",
+    linkedin: "https://www.linkedin.com/in/shahzodislomov/",
+    github: "https://github.com/shahzodislomov/"
   },
   {
-    name: "Arjun Chirumamilla",
-    position: "Principal",
-    portrait: "https://picsum.photos/400/400?random=3",
-    depthMap: "/images/sanity/36db9bbcbb12f5894ca01b48f7dd99e37583d6c7-1024x1024.webp",
-    normalMap: "/images/sanity/406c3bb1d58aeead1be2bb2091d87ea12a6fd963-1024x1024.webp"
-  },
-  {
-    name: "Jeff Sun",
-    position: "Venture Capital Analyst",
-    portrait: "https://picsum.photos/400/400?random=4",
-    depthMap: "/images/sanity/e9e938305b3cb9af93095e7fba83422f69fcb54e-1024x1024.webp",
-    normalMap: "/images/sanity/f47b948f9f89a0e86ae148c5bd814ab1e7e48178-1024x1024.webp"
-  },
-  {
-    name: "Tracie Hutchins",
-    position: "Executive Operations Manager",
-    portrait: "https://picsum.photos/400/400?random=5",
-    depthMap: "/images/sanity/98ea97a34fe729fdc9e2537d0379e1ddaf4b9e34-1024x1024.webp",
-    normalMap: "/images/sanity/ca065b099b55b1b3eb70bc3486856e0cc06b3640-1024x1024.webp"
-  },
-  {
-    name: "Stefan Deiss",
-    position: "Co-Founder",
-    portrait: "https://picsum.photos/400/400?random=6",
-    depthMap: "/images/sanity/aba29d88540b0a5181a65236c8a1cfc18f9dd4bd-1024x1024.webp",
-    normalMap: "/images/sanity/5595960e2df8246c2f993ae2042373b601fbb6ab-1024x1024.webp"
-  },
-  {
-    name: "Kamal Youssefi",
-    position: "Co-Founder & Executive Chairman",
-    portrait: "https://picsum.photos/400/400?random=7",
-    depthMap: "/images/sanity/e9e2edab7a4bffa7dff8df6ffecaaf4cbe9443bd-1024x1024.webp",
-    normalMap: "/images/sanity/88cb6e510410fa4187b5077c3a1d5d85dcd377c3-1024x1024.webp"
+    name: "Baxa",
+    position: "PHP Developer & DevOps Specialist",
+    description: "Backend PHP & Laravel specialist focused on high-performance API engineering, serverless & containerized cloud infrastructure, automated CI/CD pipelines, and high-density database optimization.",
+    telegram: "https://t.me/baxa_devops",
+    linkedin: "",
+    github: ""
   }
 ];
 
 const SectionTeam = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const { playHover, playFaceMorph } = useAudio();
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const { playClick, playHover } = useAudio();
 
-  const handleMouseMove = (e) => {
-    // Keep the portrait offset slightly from the cursor
-    setMousePos({ x: e.clientX + 30, y: e.clientY + 30 });
-  };
-
-  const handleRowMouseEnter = (index) => {
-    playHover();
-    playFaceMorph();
-    setHoveredIndex(index);
-  };
-
-  const handleRowMouseLeave = () => {
-    setHoveredIndex(null);
+  const handleToggleRow = (index) => {
+    playClick();
+    setExpandedIndex(prev => (prev === index ? null : index));
   };
 
   return (
-    <section className="section team grid" onMouseMove={handleMouseMove}>
+    <section className="section team grid">
       <div className="section-title">
         <span className="section-title__id">//03</span>
         <span>Team</span>
@@ -83,51 +49,118 @@ const SectionTeam = () => {
 
       <div className="home-team__wrapper">
         <h2 className="home-team__title">
-          Experience
+          Engineering
           <br />
-          you can build on
+          Excellence
         </h2>
         <p className="body-copy">
-          No career investors. No tourists. We've been the founder who couldn't sleep. The operator who scaled through chaos. Every person on this team carries real reps across VC, Blockchain, Web3, Investment Banking, and Enterprise.
+          We are a focused team of full-stack engineers, mobile app developers, and DevOps specialists. Click on any team member below to view their detailed focus areas and direct channels.
         </p>
       </div>
 
-      <div className="home-team__members-container">
-        {teamMembers.map((member, index) => (
-          <div
-            key={member.name}
-            className="team-member-row cursor-target"
-            onMouseEnter={() => handleRowMouseEnter(index)}
-            onMouseLeave={handleRowMouseLeave}
-          >
-            <div className="team-member-info">
-              <span className="team-member-name">{member.name}</span>
-              <span className="team-member-position">{member.position}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <div className="home-team__members-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '2rem' }}>
+        {teamMembers.map((member, index) => {
+          const isExpanded = expandedIndex === index;
+          return (
+            <motion.div
+              key={member.name}
+              className="team-member-card cursor-target"
+              onClick={() => handleToggleRow(index)}
+              onMouseEnter={playHover}
+              layout
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                border: isExpanded ? '1px solid rgba(155, 184, 225, 0.4)' : '1px solid rgba(155, 184, 225, 0.15)',
+                borderRadius: '16px',
+                padding: '1.5rem 1.8rem',
+                backdropFilter: 'blur(12px)',
+                cursor: 'pointer',
+                overflow: 'hidden',
+                boxShadow: isExpanded ? '0 10px 30px rgba(0, 0, 0, 0.4)' : 'none'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div className="team-member-info" style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  <span className="team-member-name" style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff' }}>
+                    {member.name}
+                  </span>
+                  <span className="team-member-position" style={{ fontSize: '0.9rem', color: '#9bb8e1', fontWeight: 600 }}>
+                    {member.position}
+                  </span>
+                </div>
 
-      {/* Floating 3D Portrait Tooltip */}
-      {teamMembers.map((member, index) => (
-        <div
-          key={`portrait-${member.name}`}
-          className={`floating-portrait ${hoveredIndex === index ? 'visible' : ''}`}
-          style={{
-            left: `${mousePos.x}px`,
-            top: `${mousePos.y}px`,
-            position: 'fixed',
-            transform: hoveredIndex === index ? 'translate(0%, 0%) scale(1)' : 'translate(0%, 0%) scale(0.8)',
-          }}
-        >
-          <Portrait3D
-            imageSrc={member.portrait}
-            depthMapSrc={member.depthMap}
-            normalMapSrc={member.normalMap}
-            active={hoveredIndex === index}
-          />
-        </div>
-      ))}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={e => e.stopPropagation()}>
+                  {member.telegram && (
+                    <a
+                      href={member.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-target"
+                      style={{ color: '#9bb8e1', transition: 'color 0.2s ease', padding: '0.4rem' }}
+                      title="Telegram"
+                    >
+                      <FaTelegram size={20} />
+                    </a>
+                  )}
+                  {member.github && (
+                    <a
+                      href={member.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-target"
+                      style={{ color: '#9bb8e1', transition: 'color 0.2s ease', padding: '0.4rem' }}
+                      title="GitHub"
+                    >
+                      <FaGithub size={20} />
+                    </a>
+                  )}
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-target"
+                      style={{ color: '#9bb8e1', transition: 'color 0.2s ease', padding: '0.4rem' }}
+                      title="LinkedIn"
+                    >
+                      <FaLinkedin size={20} />
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleToggleRow(index)}
+                    style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '0.2rem' }}
+                    aria-label="Toggle bio"
+                  >
+                    <motion.span animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+                      <ChevronDown size={22} color={isExpanded ? '#9bb8e1' : '#cbd5e1'} />
+                    </motion.span>
+                  </button>
+                </div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <div style={{ marginTop: '1.2rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                      <p style={{ fontSize: '0.95rem', color: '#cbd5e1', lineHeight: '1.65', margin: 0 }}>
+                        {member.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })}
+      </div>
     </section>
   );
 };

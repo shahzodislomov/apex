@@ -8,13 +8,76 @@ import TargetCursor from './components/TargetCursor';
 import ClickSpark from './components/ClickSpark';
 import Strands from './components/Strands';
 import CursorGrid from './components/CursorGrid';
-import Header from './components/Header';
+import CardNav from './components/CardNav';
+import StaggeredMenu from './components/StaggeredMenu';
+import Dock from './components/Dock';
 import Scrollbar from './components/Scrollbar';
 import SectionManifesto from './components/SectionManifesto';
 import SectionPortfolio from './components/SectionPortfolio';
 import SectionTeam from './components/SectionTeam';
+import SectionTestimonials from './components/SectionTestimonials';
+import MagicBento from './components/MagicBento';
+import { FiHome, FiFileText, FiFolder, FiUsers, FiMail, FiGithub } from 'react-icons/fi';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const staggeredNavItems = [
+  { label: 'Home', ariaLabel: 'Go to Home', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+  { label: 'Manifesto', ariaLabel: 'Go to Manifesto', onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
+  { label: 'Projects', ariaLabel: 'Go to Projects', onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
+  { label: 'Team', ariaLabel: 'Go to Team', onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) },
+  { label: 'Contact', ariaLabel: 'Go to Contact', onClick: () => document.querySelectorAll('.section-wrapper')[4]?.scrollIntoView({ behavior: 'smooth' }) }
+];
+
+const staggeredSocialItems = [
+  { label: 'Telegram: @cs_clay', link: 'https://t.me/cs_clay' },
+  { label: 'Telegram: @baxa_devops', link: 'https://t.me/baxa_devops' },
+  { label: 'Telegram: @shawn_isl', link: 'https://t.me/shawn_isl' },
+  { label: 'GitHub (Shahzod)', link: 'https://github.com/shahzodislomov/' },
+  { label: 'GitHub (Abdulloh)', link: 'https://github.com/abdullohqurbon0v' },
+  { label: 'LinkedIn (Shahzod)', link: 'https://www.linkedin.com/in/shahzodislomov/' },
+  { label: 'LinkedIn (Abdulloh)', link: 'https://www.linkedin.com/in/abdulloh-qurbonov-030bb7357/' }
+];
+
+const dockItems = [
+  { icon: <FiHome size={20} />, label: 'Home', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+  { icon: <FiFileText size={20} />, label: 'Manifesto', onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
+  { icon: <FiFolder size={20} />, label: 'Projects', onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
+  { icon: <FiUsers size={20} />, label: 'Team', onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) },
+  { icon: <FiMail size={20} />, label: 'Contact', onClick: () => document.querySelectorAll('.section-wrapper')[4]?.scrollIntoView({ behavior: 'smooth' }) },
+  { icon: <FiGithub size={20} />, label: 'GitHub', onClick: () => window.open('https://github.com/shahzodislomov/', '_blank') }
+];
+
+// const cardNavItems = [
+//   {
+//     label: "About",
+//     bgColor: "#0f172a",
+//     textColor: "#ffffff",
+//     links: [
+//       { label: "Manifesto", ariaLabel: "Our Manifesto", onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
+//       { label: "Team", ariaLabel: "Team Members", onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) }
+//     ]
+//   },
+//   {
+//     label: "Projects", 
+//     bgColor: "#1e293b",
+//     textColor: "#ffffff",
+//     links: [
+//       { label: "Portfolio", ariaLabel: "Portfolio Companies", onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
+//       { label: "Ecosystem", ariaLabel: "Ecosystem Partners", onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) }
+//     ]
+//   },
+//   {
+//     label: "Contact",
+//     bgColor: "#1e293b", 
+//     textColor: "#ffffff",
+//     links: [
+//       { label: "Email", ariaLabel: "Email us", href: "mailto:info@hashgraphvc.com" },
+//       { label: "Twitter", ariaLabel: "Twitter", href: "https://x.com/HashgraphVC" },
+//       { label: "LinkedIn", ariaLabel: "LinkedIn", href: "https://www.linkedin.com/company/hashgraph-ventures/" }
+//     ]
+//   }
+// ];
 
 const AppContent = () => {
   const [activeSectionState, setActiveSectionState] = useState(0);
@@ -130,7 +193,7 @@ const AppContent = () => {
           holdTime={400}
           fadeDuration={800}
           lineWidth={1.2}
-          maxOpacity={0.75}
+          maxOpacity={0.25}
           gridOpacity={0.15}
           clickPulse={true}
           pulseSpeed={600}
@@ -151,7 +214,25 @@ const AppContent = () => {
       <Canvas3D activeSection={activeSectionState} sectionProgress={sectionProgress} />
 
       {/* Global UI Overlays */}
-      <Header />
+      <StaggeredMenu
+        position="right"
+        items={staggeredNavItems}
+        socialItems={staggeredSocialItems}
+        displaySocials={true}
+        displayItemNumbering={true}
+        colors={['#0f172a', '#1e293b', '#334155']}
+        accentColor="#9bb8e1"
+        isFixed={true}
+      />
+      {/* <CardNav
+        items={cardNavItems}
+        baseColor="rgba(15, 23, 42, 0.85)"
+        menuColor="#ffffff"
+        buttonBgColor="#9bb8e1"
+        buttonTextColor="#000209"
+        ease="power3.out"
+      /> */}
+      <Dock items={dockItems} panelHeight={58} baseItemSize={44} magnification={64} />
       <Scrollbar progress={scrollProgress} />
 
       {/* Scrollable Layout Content */}
@@ -159,23 +240,49 @@ const AppContent = () => {
         {/* Section 0: Hero */}
         <div className="section-wrapper">
           <section className="section section-hero grid">
-            <h1 className="home-hero__title">
-              The next wave
-              <br />
-              of venture capital
-            </h1>
+            <div style={{ gridColumn: '1 / -1', marginBottom: '1.5rem' }}>
+              <span style={{ fontSize: '0.8rem', color: '#9bb8e1', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, background: 'rgba(155, 184, 225, 0.1)', padding: '0.3rem 0.8rem', borderRadius: '99px', display: 'inline-block', marginBottom: '0.8rem' }}>
+                🟢 ApexDevs Engineering Studio
+              </span>
+              <h1 className="home-hero__title" style={{ fontSize: 'clamp(2.4rem, 4.5vw, 4.2rem)', margin: 0, lineHeight: 1.1, textTransform: 'none' }}>
+                Full-Stack, Mobile Apps
+                <br />
+                & AI Engineering
+              </h1>
+              <p style={{ marginTop: '0.8rem', color: '#cbd5e1', fontSize: '1.05rem', lineHeight: 1.5, maxWidth: '750px' }}>
+                We build high-performance web platforms, cross-platform mobile apps (iOS & Android), interactive 3D UI, and scalable cloud systems.
+              </p>
+            </div>
 
-            <button
-              onClick={() => {
-                const manifestoSec = document.querySelectorAll('.section-wrapper')[1];
-                manifestoSec?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              onMouseEnter={playHover}
-              className="home-hero__btn btn-label ttu cursor-target"
-            >
-              <span className="home-hero__btn-label">Scroll down to discover more</span>
-              <span className="home-hero__btn-line" />
-            </button>
+            {/* Compact MagicBento Grid inside Hero */}
+            <div style={{ gridColumn: '1 / -1', width: '100%', marginBottom: '2rem' }}>
+              <MagicBento
+                textAutoHide={true}
+                enableStars={true}
+                enableSpotlight={true}
+                enableBorderGlow={true}
+                enableTilt={true}
+                enableMagnetism={true}
+                clickEffect={true}
+                spotlightRadius={260}
+                particleCount={10}
+                glowColor="155, 184, 225"
+              />
+            </div>
+
+            <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+              <button
+                onClick={() => {
+                  const manifestoSec = document.querySelectorAll('.section-wrapper')[1];
+                  manifestoSec?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                onMouseEnter={playHover}
+                className="home-hero__btn btn-label ttu cursor-target"
+              >
+                <span className="home-hero__btn-label">Scroll down to discover more</span>
+                <span className="home-hero__btn-line" />
+              </button>
+            </div>
           </section>
         </div>
 
@@ -194,66 +301,62 @@ const AppContent = () => {
           <SectionTeam />
         </div>
 
-        {/* Section 4: Footer */}
+        {/* Section 4: Testimonials */}
         <div className="section-wrapper">
-          <section className="section footer grid">
-            <h3 className="footer__title">
+          <SectionTestimonials />
+        </div>
+
+        {/* Section 5: Footer */}
+        <div className="section-wrapper">
+          <section className="section footer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '2rem', padding: '4rem 2rem 6rem' }}>
+            <h3 className="footer__title" style={{ margin: 0, fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#ffffff' }}>
               We prioritize warm introductions
               <br />
               and ecosystem referrals
             </h3>
 
-            <div className="footer__bottom">
-              <div className="footer__copyright">
-                © HolyElite 2026
-              </div>
-
-              <ul className="footer__links">
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', width: '100%' }}>
+              <ul style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '1.5rem', listStyle: 'none', margin: 0, padding: 0 }}>
                 <li>
-                  <a
-                    href="mailto:info@hashgraphvc.com"
-                    onMouseEnter={playHover}
-                    onClick={() => handleSectionActive(4)}
-                    className="cursor-target"
-                  >
-                    Email
+                  <a href="https://t.me/cs_clay" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    Telegram (@cs_clay)
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://x.com/HashgraphVC"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onMouseEnter={playHover}
-                    onClick={() => handleSectionActive(4)}
-                    className="cursor-target"
-                  >
-                    X (Twitter)
+                  <a href="https://t.me/baxa_devops" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    Telegram (@baxa_devops)
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.linkedin.com/company/hashgraph-ventures/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onMouseEnter={playHover}
-                    onClick={() => handleSectionActive(4)}
-                    className="cursor-target"
-                  >
-                    LinkedIn
+                  <a href="https://t.me/shawn_isl" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    Telegram (@shawn_isl)
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/privacy-policy"
-                    onMouseEnter={playHover}
-                    onClick={() => handleSectionActive(4)}
-                    className="cursor-target"
-                  >
-                    Privacy Policy
+                  <a href="https://github.com/shahzodislomov/" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    GitHub (Shahzod)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/abdullohqurbon0v" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    GitHub (Abdulloh)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/shahzodislomov/" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    LinkedIn (Shahzod)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/in/abdulloh-qurbonov-030bb7357/" target="_blank" rel="noopener noreferrer" onMouseEnter={playHover} className="cursor-target" style={{ color: '#9bb8e1', textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
+                    LinkedIn (Abdulloh)
                   </a>
                 </li>
               </ul>
+
+              <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.05em' }}>
+                © ApexDevs 2026
+              </div>
             </div>
           </section>
         </div>
