@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAudio } from './AudioController';
 import LogoLoop from './LogoLoop';
 import CardSwap, { Card } from './CardSwap';
@@ -80,6 +80,21 @@ const caseStudies = [
 
 const SectionPortfolio = () => {
   const { playClick, playHover } = useAudio();
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1024;
+
+  const cardWidth = isMobile ? Math.min(340, windowWidth - 32) : isTablet ? Math.min(420, windowWidth - 64) : 490;
+  const cardHeight = isMobile ? 360 : 380;
+  const cardDistance = isMobile ? 24 : 50;
+  const verticalDistance = isMobile ? 32 : 65;
 
   return (
     <section className="section portfolio grid">
@@ -96,15 +111,15 @@ const SectionPortfolio = () => {
         & Products
       </h2>
 
-      <div className="home-portfolio__slider-container" style={{ position: 'relative', minHeight: '450px', overflow: 'visible' }}>
+      <div className="home-portfolio__slider-container" style={{ position: 'relative', minHeight: isMobile ? '410px' : '450px', overflow: 'visible' }}>
         <CardSwap
-          width={490}
-          height={380}
-          cardDistance={50}
-          verticalDistance={65}
+          width={cardWidth}
+          height={cardHeight}
+          cardDistance={cardDistance}
+          verticalDistance={verticalDistance}
           delay={5000}
           pauseOnHover={true}
-          skewAmount={3}
+          skewAmount={isMobile ? 1.5 : 3}
           easing="elastic"
         >
           {caseStudies.map((comp) => (

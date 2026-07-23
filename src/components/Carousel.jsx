@@ -85,8 +85,20 @@ export default function Carousel({
   loop = true,
   round = false
 }) {
+  const [effectiveBaseWidth, setEffectiveBaseWidth] = useState(baseWidth);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const maxAllowed = Math.min(baseWidth, window.innerWidth - 32);
+      setEffectiveBaseWidth(maxAllowed > 240 ? maxAllowed : 240);
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, [baseWidth]);
+
   const containerPadding = 16;
-  const itemWidth = baseWidth - containerPadding * 2;
+  const itemWidth = effectiveBaseWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
   const itemsForRender = useMemo(() => {
     if (!loop) return items;

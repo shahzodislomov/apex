@@ -83,3 +83,20 @@
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
   letter-spacing: 0.02em;
 }
+
+@media (max-width: 600px) {
+  .dock-outer {
+    bottom: 0.5rem;
+    max-width: calc(100vw - 12px);
+  }
+  .dock-panel {
+    gap: 0.3rem;
+    padding: 0.3rem 0.45rem;
+    border-radius: 0.9rem;
+    max-width: 100%;
+  }
+  .dock-item {
+    border-radius: 8px;
+  }
+}
+

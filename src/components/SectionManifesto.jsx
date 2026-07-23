@@ -37,7 +37,7 @@ const SectionManifesto = () => {
           colors={['#9bb8e1', '#4a8fdf', '#06b6d4']}
           className="cursor-target"
         >
-          <div style={{ padding: '3rem 3.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2.5rem', alignItems: 'center' }}>
+          <div className="manifesto-card-content">
             <div>
               <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, color: '#ffffff', margin: 0, lineHeight: 1.1, letterSpacing: '-0.02em', textTransform: 'none' }}>
                 Capital with conviction

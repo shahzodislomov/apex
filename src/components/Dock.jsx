@@ -96,6 +96,23 @@ export default function Dock({
 }) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
+  const [effectiveBaseSize, setEffectiveBaseSize] = useState(baseItemSize);
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth < 600) {
+        const calculated = Math.floor((window.innerWidth - 64) / (items.length || 6));
+        setEffectiveBaseSize(Math.max(32, Math.min(baseItemSize, calculated)));
+      } else {
+        setEffectiveBaseSize(baseItemSize);
+      }
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [baseItemSize, items.length]);
+
+  const effectiveMagnification = Math.min(magnification, effectiveBaseSize + 16);
 
   return (
     <div className="dock-outer">
@@ -120,8 +137,8 @@ export default function Dock({
             mouseX={mouseX}
             spring={spring}
             distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
+            magnification={effectiveMagnification}
+            baseItemSize={effectiveBaseSize}
             label={item.label}
           >
             <DockIcon>{item.icon}</DockIcon>

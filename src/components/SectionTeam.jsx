@@ -80,7 +80,7 @@ const SectionTeam = () => {
                 boxShadow: isExpanded ? '0 10px 30px rgba(0, 0, 0, 0.4)' : 'none'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className="team-card-header">
                 <div className="team-member-info" style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                   <span className="team-member-name" style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff' }}>
                     {member.name}
@@ -90,7 +90,7 @@ const SectionTeam = () => {
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={e => e.stopPropagation()}>
+                <div className="team-card-actions" onClick={e => e.stopPropagation()}>
                   {member.telegram && (
                     <a
                       href={member.telegram}
