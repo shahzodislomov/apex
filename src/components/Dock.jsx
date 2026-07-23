@@ -5,9 +5,10 @@ import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 're
 
 import './Dock.css';
 
-function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize, label }) {
+function DockItem({ children, className = '', onClick, subItems, mouseX, spring, distance, magnification, baseItemSize, label }) {
   const ref = useRef(null);
   const isHovered = useMotionValue(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   const mouseDistance = useTransform(mouseX, val => {
     const rect = ref.current?.getBoundingClientRect() ?? {
@@ -20,25 +21,46 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
   const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
   const size = useSpring(targetSize, spring);
 
+  const handleClick = (e) => {
+    if (subItems && subItems.length > 0) {
+      e.stopPropagation();
+      setIsOpen(prev => !prev);
+    } else {
+      onClick?.(e);
+    }
+  };
+
   const handleKeyDown = e => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onClick?.();
+      handleClick(e);
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isOpen]);
 
   return (
     <motion.div
       ref={ref}
       style={{
         width: size,
-        height: size
+        height: size,
+        position: 'relative'
       }}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
-      onClick={onClick}
+      onClick={handleClick}
       className={`dock-item cursor-target ${className}`}
       tabIndex={0}
       role="button"
@@ -47,6 +69,66 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       onKeyDown={handleKeyDown}
     >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
+
+      <AnimatePresence>
+        {isOpen && subItems && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'absolute',
+              bottom: 'calc(100% + 14px)',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(155, 184, 225, 0.25)',
+              borderRadius: '14px',
+              padding: '0.6rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.4rem',
+              minWidth: '200px',
+              boxShadow: '0 12px 30px rgba(0, 0, 0, 0.6)',
+              zIndex: 120,
+              pointerEvents: 'auto'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#9bb8e1', letterSpacing: '0.1em', fontWeight: 800, padding: '0.2rem 0.4rem 0.3rem' }}>
+              GitHub Profiles
+            </div>
+            {subItems.map((sub, idx) => (
+              <a
+                key={idx}
+                href={sub.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="cursor-target"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.45rem 0.75rem',
+                  borderRadius: '8px',
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  transition: 'all 0.2s ease',
+                  backgroundColor: 'rgba(30, 41, 59, 0.7)'
+                }}
+              >
+                <span>{sub.label}</span>
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -133,6 +215,7 @@ export default function Dock({
           <DockItem
             key={index}
             onClick={item.onClick}
+            subItems={item.subItems}
             className={item.className}
             mouseX={mouseX}
             spring={spring}

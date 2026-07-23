@@ -45,40 +45,17 @@ const dockItems = [
   { icon: <FiFileText size={20} />, label: 'Manifesto', onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
   { icon: <FiFolder size={20} />, label: 'Projects', onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
   { icon: <FiUsers size={20} />, label: 'Team', onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) },
-  { icon: <FiMail size={20} />, label: 'Contact', onClick: () => document.querySelectorAll('.section-wrapper')[4]?.scrollIntoView({ behavior: 'smooth' }) },
-  { icon: <FiGithub size={20} />, label: 'GitHub', onClick: () => window.open('https://github.com/shahzodislomov/', '_blank') }
+  { icon: <FiMail size={20} />, label: 'Contact', onClick: () => document.querySelectorAll('.section-wrapper')[5]?.scrollIntoView({ behavior: 'smooth' }) },
+  {
+    icon: <FiGithub size={20} />,
+    label: 'GitHub',
+    subItems: [
+      { label: 'Shahzod Islomov', link: 'https://github.com/shahzodislomov/' },
+      { label: 'Abdulloh Qurbonov', link: 'https://github.com/abdullohqurbon0v' },
+      { label: 'Bahriddin Kucharov', link: 'https://github.com/bahriddindeveloper96' }
+    ]
+  }
 ];
-
-// const cardNavItems = [
-//   {
-//     label: "About",
-//     bgColor: "#0f172a",
-//     textColor: "#ffffff",
-//     links: [
-//       { label: "Manifesto", ariaLabel: "Our Manifesto", onClick: () => document.querySelectorAll('.section-wrapper')[1]?.scrollIntoView({ behavior: 'smooth' }) },
-//       { label: "Team", ariaLabel: "Team Members", onClick: () => document.querySelectorAll('.section-wrapper')[3]?.scrollIntoView({ behavior: 'smooth' }) }
-//     ]
-//   },
-//   {
-//     label: "Projects", 
-//     bgColor: "#1e293b",
-//     textColor: "#ffffff",
-//     links: [
-//       { label: "Portfolio", ariaLabel: "Portfolio Companies", onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) },
-//       { label: "Ecosystem", ariaLabel: "Ecosystem Partners", onClick: () => document.querySelectorAll('.section-wrapper')[2]?.scrollIntoView({ behavior: 'smooth' }) }
-//     ]
-//   },
-//   {
-//     label: "Contact",
-//     bgColor: "#1e293b", 
-//     textColor: "#ffffff",
-//     links: [
-//       { label: "Email", ariaLabel: "Email us", href: "mailto:info@hashgraphvc.com" },
-//       { label: "Twitter", ariaLabel: "Twitter", href: "https://x.com/HashgraphVC" },
-//       { label: "LinkedIn", ariaLabel: "LinkedIn", href: "https://www.linkedin.com/company/hashgraph-ventures/" }
-//     ]
-//   }
-// ];
 
 const AppContent = () => {
   const [activeSectionState, setActiveSectionState] = useState(0);
@@ -225,14 +202,6 @@ const AppContent = () => {
         accentColor="#9bb8e1"
         isFixed={true}
       />
-      {/* <CardNav
-        items={cardNavItems}
-        baseColor="rgba(15, 23, 42, 0.85)"
-        menuColor="#ffffff"
-        buttonBgColor="#9bb8e1"
-        buttonTextColor="#000209"
-        ease="power3.out"
-      /> */}
       <Dock items={dockItems} panelHeight={58} baseItemSize={44} magnification={64} />
       <Scrollbar progress={scrollProgress} />
 

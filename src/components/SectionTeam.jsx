@@ -22,12 +22,12 @@ const teamMembers = [
     github: "https://github.com/shahzodislomov/"
   },
   {
-    name: "Baxa",
+    name: "Bahriddin Kucharov",
     position: "PHP Developer & DevOps Specialist",
     description: "Backend PHP & Laravel specialist focused on high-performance API engineering, serverless & containerized cloud infrastructure, automated CI/CD pipelines, and high-density database optimization.",
     telegram: "https://t.me/baxa_devops",
-    linkedin: "",
-    github: ""
+    linkedin: "https://www.linkedin.com/in/bahriddin-kucharov-70242b2a2/",
+    github: "https://github.com/bahriddindeveloper96"
   }
 ];
 
